@@ -44,5 +44,75 @@ This performs a message loop-back test along the path to the target resource.
 
 ![image](https://github.com/user-attachments/assets/5704d709-c3bf-4f99-9e6e-f2151f47fcb3)
 
+---
+
+# Mécanisme des Requêtes HTTP entre Deux Tiers et Plus
+
+## 1. Communication Client-Serveur (2 Tiers)
+Le modèle le plus simple où un client (navigateur ou application) envoie une requête HTTP à un serveur, et ce dernier renvoie une réponse.
+
+### **Processus :**
+- Le client envoie une requête HTTP (GET, POST, etc.) vers le serveur.
+- Le serveur traite la requête (lecture d’une base de données, exécution d’une logique métier, etc.).
+- Le serveur renvoie une réponse HTTP avec un code de statut (200 OK, 404 Not Found, etc.).
+
+#### **Exemple d’échange entre un navigateur et un serveur**  
+```
+Client → HTTP Request (GET /products) → Serveur  
+Serveur → HTTP Response (200 OK, JSON des produits) → Client  
+```
+
+---
+
+## 2. Architecture à 3 Tiers (Client-Serveur-Base de Données ou API Gateway)
+Dans ce cas, un serveur intermédiaire (back-end) communique avec une base de données ou un autre serveur via HTTP.
+
+### **Processus :**
+- Le client envoie une requête au serveur d’application (backend).
+- Le backend fait une autre requête HTTP vers un serveur tiers (ex : microservice, API externe).
+- Le serveur tiers renvoie une réponse au backend.
+- Le backend reformate et renvoie la réponse au client.
+
+#### **Exemple avec un backend qui interroge une base de données via une API interne**  
+```
+Client → HTTP Request (GET /products) → Backend  
+Backend → HTTP Request (GET /db/products) → Serveur de base de données  
+Serveur DB → HTTP Response (200 OK, données produits) → Backend  
+Backend → HTTP Response (200 OK, JSON produits) → Client  
+```
+
+---
+
+## 3. Communication entre Plusieurs Microservices (N-Tiers)
+Dans une architecture distribuée (microservices), plusieurs services communiquent entre eux via HTTP, généralement via un **API Gateway** ou un **Service Mesh**.
+
+### **Processus avec un API Gateway :**
+- Le client envoie une requête HTTP à un API Gateway.
+- L’API Gateway répartit les requêtes vers différents microservices (produits, panier, paiement, etc.).
+- Chaque microservice peut interagir avec d’autres services (ex : service de paiement contacte la banque).
+- La réponse agrégée est renvoyée au client.
+
+#### **Exemple avec microservices**  
+```
+Client → HTTP Request (POST /checkout) → API Gateway  
+API Gateway → HTTP Request (GET /cart) → Cart Service  
+API Gateway → HTTP Request (GET /payment) → Payment Service  
+API Gateway → HTTP Response (200 OK, commande validée) → Client  
+```
+
+### **Technologies Utilisées dans les Architectures Multi-Tiers :**
+- **API Gateway** (ex : Kong, Zuul, Spring Cloud Gateway) pour gérer les routes et sécuriser les requêtes.
+- **Service Mesh** (ex : Istio, Linkerd) pour gérer la communication interservices.
+- **Message Broker** (ex : Kafka, RabbitMQ) pour des communications asynchrones entre services.
+
+---
+
+## **Conclusion**
+- **2 Tiers** : Client ↔ Serveur  
+- **3 Tiers** : Client ↔ Backend ↔ Base de données / API  
+- **N-Tiers (Microservices)** : Client ↔ API Gateway ↔ Microservices ↔ Autres Services  
+
+---
+
 
  
