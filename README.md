@@ -36,5 +36,13 @@ The CONNECT method establishes a tunnel to the server identified by the target r
 This describes the communication options for the target resource. 
  
 9. HTTP TRACE 
-This performs a message loop-back test along the path to the target resource. 
+This performs a message loop-back test along the path to the target resource.
+
+---
+
+## Status
+
+![image](https://github.com/user-attachments/assets/5704d709-c3bf-4f99-9e6e-f2151f47fcb3)
+
+
  
