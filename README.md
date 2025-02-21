@@ -9,6 +9,8 @@ The transfer of resources happens using TCP (Transmission Control Protocol). In 
 
 ## Http methodes
 
+![image](https://github.com/user-attachments/assets/7f7e71c1-6a24-444f-a8d9-4a05b3813c15)
+
 1. HTTP GET 
 This retrieves a resource from the server. It is idempotent. Multiple identical requests return the same result. 
  
